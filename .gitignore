@@ -4,6 +4,8 @@
 node_modules/
 .next/
 out/
+coverage/
+src/generated/prisma/
 
 # Local environment and secrets
 .env
