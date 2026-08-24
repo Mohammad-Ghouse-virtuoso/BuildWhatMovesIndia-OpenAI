@@ -7,4 +7,211 @@ datasource db {
   provider = "postgresql"
 }
 
-// Phase 1A owns the application models and migrations.
+enum Persona {
+  citizen
+  officer
+  admin
+}
+
+enum ComplaintCategory {
+  ROADS
+  DRAINAGE
+  WATER_SUPPLY
+  WASTE_SANITATION
+  STREET_LIGHTING
+  PARKS_GREENERY
+}
+
+enum ComplaintSeverity {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum ComplaintStatus {
+  SUBMITTED
+  CATEGORIZED
+  ASSIGNED
+  IN_PROGRESS
+  AWAITING_VERIFICATION
+  CLOSED
+  REOPENED
+}
+
+enum ComplaintEventType {
+  SUBMITTED
+  CATEGORIZED
+  ASSIGNED
+  REASSIGNED
+  INSPECTION_STARTED
+  RESOLUTION_SUBMITTED
+  CITIZEN_VERIFIED
+  REOPENED
+  ESCALATED
+}
+
+model User {
+  id        String   @id
+  persona   Persona
+  name      String
+  createdAt DateTime @default(now())
+
+  filedComplaints    Complaint[]        @relation("CitizenComplaints")
+  assignedComplaints Complaint[]        @relation("OfficerAssignments")
+  events             ComplaintEvent[]
+  escalations        Escalation[]
+  resolutions        Resolution[]
+  feedback           CitizenFeedback[]
+}
+
+model Ulb {
+  id               String @id
+  name             String
+  originLatitude   Float
+  originLongitude  Float
+  wards            Ward[]
+  departments      Department[]
+}
+
+model Ward {
+  id          String      @id
+  ulbId       String
+  number      Int
+  name        String
+  ulb         Ulb         @relation(fields: [ulbId], references: [id], onDelete: Cascade)
+  complaints  Complaint[]
+
+  @@unique([ulbId, number])
+  @@index([number])
+}
+
+model Department {
+  id         String      @id
+  ulbId      String
+  name       String
+  ulb        Ulb         @relation(fields: [ulbId], references: [id], onDelete: Cascade)
+  categories Category[]
+  complaints Complaint[]
+}
+
+model Category {
+  code          ComplaintCategory @id
+  label         String
+  departmentId  String
+  department    Department        @relation(fields: [departmentId], references: [id])
+  subcategories Subcategory[]
+}
+
+model Subcategory {
+  id         String             @id
+  category   ComplaintCategory
+  label      String
+  slaHours   Int
+  categoryRef Category          @relation(fields: [category], references: [code])
+  complaints Complaint[]
+
+  @@index([category])
+}
+
+model Complaint {
+  id                 String             @id
+  publicId           String             @unique
+  seedKey            String?            @unique
+  citizenId          String
+  description        String
+  summary            String
+  category           ComplaintCategory
+  subcategoryId      String
+  severity           ComplaintSeverity
+  status             ComplaintStatus
+  wardId             String
+  latitude           Float
+  longitude          Float
+  locationLabel      String
+  gridCellKey        String
+  departmentId       String?
+  assignedOfficerId  String?
+  slaDeadline        DateTime
+  slaDurationHours   Int
+  isEscalated        Boolean            @default(false)
+  photoReference     String?
+  createdAt          DateTime
+  updatedAt          DateTime
+  closedAt           DateTime?
+
+  citizen          User        @relation("CitizenComplaints", fields: [citizenId], references: [id])
+  assignedOfficer  User?       @relation("OfficerAssignments", fields: [assignedOfficerId], references: [id])
+  ward      Ward        @relation(fields: [wardId], references: [id])
+  department Department? @relation(fields: [departmentId], references: [id])
+  subcategory Subcategory @relation(fields: [subcategoryId], references: [id])
+  events    ComplaintEvent[]
+  escalations Escalation[]
+  resolutions Resolution[]
+  feedback  CitizenFeedback[]
+
+  @@index([wardId, category, status])
+  @@index([wardId, category, createdAt])
+  @@index([status])
+  @@index([createdAt])
+  @@index([slaDeadline])
+  @@index([assignedOfficerId])
+  @@index([gridCellKey])
+  @@index([citizenId])
+  @@index([category, status, createdAt])
+}
+
+model ComplaintEvent {
+  id            String              @id
+  complaintId   String
+  type          ComplaintEventType
+  occurredAt    DateTime
+  actorId       String?
+  actorPersona  Persona?
+  actorName     String?
+  description   String
+  metadata      Json?
+  complaint     Complaint           @relation(fields: [complaintId], references: [id], onDelete: Cascade)
+  actor         User?               @relation(fields: [actorId], references: [id])
+
+  @@index([complaintId, occurredAt])
+}
+
+model Escalation {
+  id         String    @id
+  complaintId String
+  level      Int
+  queueLabel String
+  pathLabel  String?
+  reason     String
+  actorId    String
+  createdAt  DateTime
+  complaint  Complaint @relation(fields: [complaintId], references: [id], onDelete: Cascade)
+  actor      User      @relation(fields: [actorId], references: [id])
+
+  @@index([complaintId, level])
+}
+
+model Resolution {
+  id          String    @id
+  complaintId String
+  officerId   String
+  note        String?
+  submittedAt DateTime
+  complaint   Complaint @relation(fields: [complaintId], references: [id], onDelete: Cascade)
+  officer     User      @relation(fields: [officerId], references: [id])
+
+  @@index([complaintId, submittedAt])
+}
+
+model CitizenFeedback {
+  id          String    @id
+  complaintId String
+  citizenId   String
+  accepted    Boolean
+  reason      String?
+  createdAt   DateTime
+  complaint   Complaint @relation(fields: [complaintId], references: [id], onDelete: Cascade)
+  citizen     User      @relation(fields: [citizenId], references: [id])
+
+  @@index([complaintId, createdAt])
+}

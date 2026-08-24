@@ -15,6 +15,7 @@ src/generated/prisma/
 # Deployment and tooling
 .vercel/
 *.tsbuildinfo
+graphify-out/
 
 # Local operating-system/editor files
 .DS_Store
