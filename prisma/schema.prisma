@@ -7,4 +7,98 @@ datasource db {
   provider = "postgresql"
 }
 
-// Phase 1 owns RTI models, seed, and migrations.
+enum RtiStatus {
+  drafted
+  submitted
+  received
+  processing
+  additional_information
+  response_ready
+  response_received
+  appeal_prepared
+  appeal_submitted
+}
+
+enum AppealStatus {
+  prepared
+  submitted
+}
+
+model DemoUser {
+  id        String       @id
+  name      String
+  email     String       @unique
+  phone     String
+  role      String       @default("citizen")
+  createdAt DateTime     @default(now()) @map("created_at") @db.Timestamptz
+  requests  RtiRequest[]
+}
+
+model PublicAuthority {
+  id          String       @id
+  name        String
+  description String
+  category    String
+  isDemo      Boolean      @default(true) @map("is_demo")
+  requests    RtiRequest[]
+}
+
+model RtiRequest {
+  id                      String           @id
+  registrationNumber      String?          @unique @map("registration_number")
+  userId                  String           @map("user_id")
+  authorityId             String           @map("authority_id")
+  originalQuestion        String           @map("original_question")
+  clarifiedQuestion       String           @map("clarified_question")
+  draftText               String           @map("draft_text") @db.Text
+  status                  RtiStatus
+  informationCategories   String[]         @map("information_categories")
+  requestedItems          Json             @default("[]") @map("requested_items")
+  submittedAt             DateTime?        @map("submitted_at") @db.Timestamptz
+  responseDueAt           DateTime?        @map("response_due_at") @db.Timestamptz
+  createdAt               DateTime         @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt               DateTime         @updatedAt @map("updated_at") @db.Timestamptz
+  user                    DemoUser         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  authority               PublicAuthority  @relation(fields: [authorityId], references: [id], onDelete: Restrict)
+  events                  RtiEvent[]
+  documents               Document[]
+  appeals                 Appeal[]
+
+  @@index([userId])
+  @@index([status])
+}
+
+model RtiEvent {
+  id          String     @id
+  requestId   String     @map("request_id")
+  type        RtiStatus
+  description String
+  timestamp   DateTime   @db.Timestamptz
+  request     RtiRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+
+  @@index([requestId, timestamp])
+}
+
+model Document {
+  id        String     @id
+  requestId String     @map("request_id")
+  name      String
+  type      String
+  content   String     @db.Text
+  synthetic Boolean    @default(true)
+  request   RtiRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+
+  @@index([requestId])
+}
+
+model Appeal {
+  id        String       @id
+  requestId String       @map("request_id")
+  reason    String       @db.Text
+  draftText String       @map("draft_text") @db.Text
+  status    AppealStatus
+  createdAt DateTime     @default(now()) @map("created_at") @db.Timestamptz
+  request   RtiRequest   @relation(fields: [requestId], references: [id], onDelete: Cascade)
+
+  @@index([requestId])
+}
