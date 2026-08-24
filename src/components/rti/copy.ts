@@ -7,7 +7,7 @@ import type { RtiStatus } from "@/lib/rti/domain/lifecycle";
 import { PRIMARY_REQUEST_ID } from "@/lib/rti/domain/constants";
 
 export const AI_DRAFT_NOTICE =
-  "AI-generated draft · Review before filing · Not legal advice";
+  "AI assistive only · Review before filing or relying on it · Not legal advice";
 
 export const WHY_STRONGER =
   "This version asks for named records and figures (sanction, expenditure, work order, dates) instead of asking the authority to give an opinion or explain why something happened.";

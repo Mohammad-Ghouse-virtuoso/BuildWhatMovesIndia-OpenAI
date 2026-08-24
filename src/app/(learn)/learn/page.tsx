@@ -19,7 +19,8 @@ export default function LearnPage() {
         </p>
         <p>
           This demo never files with Government of India. Registration numbers use a DEMO
-          prefix. Nothing here is an official partnership.
+          prefix. Nothing here is the official RTI Online service, and any AI draft or
+          summary is assistive only.
         </p>
       </div>
     </RouteShell>

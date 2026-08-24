@@ -18,8 +18,9 @@ export default function Home() {
         </h1>
         <p className="mt-4 text-base leading-7 text-slate-600">
           Ask about public spending, projects, decisions, records and services.
-          Central public authorities only. This prototype uses synthetic data and
-          does not file with the government.
+          Central public authorities only. This citizen demo uses synthetic data,
+          does not file with Government of India, and is not the official RTI Online
+          portal.
         </p>
         <div className="mt-8">
           <QuestionForm />
