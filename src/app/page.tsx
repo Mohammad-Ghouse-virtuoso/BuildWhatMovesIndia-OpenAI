@@ -1,56 +1,51 @@
 import Link from "next/link";
 
-import { DemoDisclosure } from "@/components/shared/demo-disclosure";
+import { AppShell } from "@/components/shared/app-shell";
+import { QuestionForm } from "@/components/rti/question-form";
+import { CLAIM_CARDS, DEMO_RESPONSE_HREF } from "@/components/rti/copy";
 import { Button } from "@/components/ui/button";
 import { PRODUCT_NAME, TAGLINE } from "@/lib/brand";
 
-const claimCards = [
-  "They said the road cost ₹2 crore. Where did the money go?",
-  "Who won the contract for this project?",
-  "How many people were actually hired?",
-] as const;
-
 export default function Home() {
   return (
-    <div className="min-h-screen">
-      <DemoDisclosure />
-      <main className="mx-auto flex min-h-[calc(100vh-33px)] max-w-6xl flex-col justify-center px-4 py-16">
-        <p className="mb-4 text-xs font-bold uppercase tracking-[0.2em] text-civic-600">
+    <AppShell>
+      <div className="mx-auto max-w-xl">
+        <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-civic-600">
           {PRODUCT_NAME}
         </p>
-        <h1 className="max-w-4xl text-4xl font-bold tracking-[-0.04em] text-civic-900 sm:text-6xl lg:text-7xl">
+        <h1 className="text-4xl font-bold tracking-[-0.04em] text-civic-900 sm:text-5xl">
           {TAGLINE}
         </h1>
-        <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
-          Start with a question. We help you turn it into a precise RTI records
-          request for a Central public authority. This prototype uses synthetic
-          data and does not file with the government.
+        <p className="mt-4 text-base leading-7 text-slate-600">
+          Ask about public spending, projects, decisions, records and services.
+          Central public authorities only. This prototype uses synthetic data and
+          does not file with the government.
         </p>
-        <div className="mt-10 flex flex-wrap gap-3">
-          <Button asChild>
-            <Link href="/ask">Ask a question</Link>
-          </Button>
-          <Button asChild variant="secondary">
-            <Link href="/my-rti">Track an RTI</Link>
-          </Button>
+        <div className="mt-8">
+          <QuestionForm />
         </div>
         <p className="mt-10 text-sm font-semibold text-slate-700">Heard a claim?</p>
-        <ul className="mt-3 grid gap-3 sm:grid-cols-3">
-          {claimCards.map((claim) => (
-            <li key={claim}>
+        <ul className="mt-3 grid gap-3">
+          {CLAIM_CARDS.map((card) => (
+            <li key={card.title}>
               <Link
-                className="block rounded-2xl border border-civic-100 bg-white p-4 text-sm leading-6 text-slate-700 hover:border-civic-200"
-                href="/ask"
+                className="block rounded-2xl border border-civic-100 bg-white p-4 text-sm leading-6 text-slate-700"
+                href={card.href}
               >
-                {claim}
+                {card.title}
               </Link>
             </li>
           ))}
         </ul>
-        <p className="mt-8 text-sm text-slate-500">
-          Continue as demo citizen · No login · Central authorities only
+        <div className="mt-8">
+          <Button asChild className="w-full sm:w-auto" variant="secondary">
+            <Link href={DEMO_RESPONSE_HREF}>Open demo: road project</Link>
+          </Button>
+        </div>
+        <p className="mt-6 text-sm text-slate-500">
+          Continue as demo citizen · No login · Track an existing RTI from My RTIs
         </p>
-      </main>
-    </div>
+      </div>
+    </AppShell>
   );
 }
