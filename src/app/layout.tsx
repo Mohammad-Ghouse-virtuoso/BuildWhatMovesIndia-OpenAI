@@ -1,15 +1,16 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
+import { PRODUCT_NAME, TAGLINE } from "@/lib/brand";
+
 import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "Civic Intelligence",
-    template: "%s · Civic Intelligence",
+    default: PRODUCT_NAME,
+    template: `%s · ${PRODUCT_NAME}`,
   },
-  description:
-    "A synthetic prototype that turns municipal complaints into clearer civic intelligence.",
+  description: TAGLINE,
 };
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {

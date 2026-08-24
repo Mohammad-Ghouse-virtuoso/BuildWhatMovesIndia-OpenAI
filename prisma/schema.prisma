@@ -7,4 +7,4 @@ datasource db {
   provider = "postgresql"
 }
 
-// Phase 1A owns the application models and migrations.
+// Phase 1 owns RTI models, seed, and migrations.

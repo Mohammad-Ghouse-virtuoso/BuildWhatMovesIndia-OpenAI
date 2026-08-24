@@ -1,6 +1,6 @@
 /**
  * Phase 0 seed entrypoint.
- * Phase 1A replaces this shell with the deterministic synthetic dataset.
+ * Phase 1 replaces this shell with the deterministic Ask India dataset.
  */
 async function main() {
   console.info("No synthetic records yet; Phase 1A owns deterministic seeding.");
