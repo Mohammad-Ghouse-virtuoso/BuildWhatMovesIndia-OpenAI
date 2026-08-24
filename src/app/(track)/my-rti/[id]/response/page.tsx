@@ -5,6 +5,7 @@ import { AiNotice } from "@/components/rti/ai-notice";
 import { UNANSWERED_COPY, unansweredItems } from "@/components/rti/copy";
 import { RouteShell } from "@/components/shared/route-shell";
 import { Button } from "@/components/ui/button";
+import { summarizeDocuments } from "@/lib/rti/ai/service";
 import { rti } from "@/lib/rti/server";
 
 export default async function RtiResponsePage({
@@ -23,6 +24,12 @@ export default async function RtiResponsePage({
     ? adapterUnanswered
     : unansweredItems(request.requestedItems);
   const hasResponse = documents.length > 0;
+  const summary = hasResponse
+    ? await summarizeDocuments({
+        documents,
+        unansweredItems: missing,
+      })
+    : null;
 
   return (
     <RouteShell
@@ -41,6 +48,32 @@ export default async function RtiResponsePage({
       ) : (
         <>
           <AiNotice />
+          {summary ? (
+            <section className="mt-6 space-y-4 rounded-2xl border border-civic-100 bg-white p-4">
+              <div>
+                <h2 className="text-sm font-bold text-civic-900">Summary</h2>
+                <p className="mt-2 text-sm leading-6 text-slate-700">{summary.summary}</p>
+              </div>
+              {summary.facts.length > 0 ? (
+                <ul className="space-y-3">
+                  {summary.facts.map((fact) => (
+                    <li
+                      className="rounded-2xl border border-civic-100 bg-civic-50 p-4 text-sm"
+                      key={`${fact.label}-${fact.citation.documentName}-${fact.value}`}
+                    >
+                      <p className="font-semibold text-civic-900">
+                        {fact.label}: {fact.value}
+                      </p>
+                      <p className="mt-1 text-xs text-slate-500">
+                        {fact.citation.documentName}
+                      </p>
+                      <p className="mt-2 text-slate-700">"{fact.citation.excerpt}"</p>
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+            </section>
+          ) : null}
           <h2 className="mt-6 text-sm font-bold text-civic-900">Documents</h2>
           <ul className="mt-3 space-y-3">
             {documents.map((document) => (

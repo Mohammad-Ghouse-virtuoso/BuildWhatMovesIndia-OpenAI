@@ -3,6 +3,7 @@ import { notFound, redirect } from "next/navigation";
 import { DraftForm } from "@/components/rti/draft-form";
 import { WizardSteps } from "@/components/rti/wizard-steps";
 import { RouteShell } from "@/components/shared/route-shell";
+import { explainWhyStronger } from "@/lib/rti/ai/service";
 import { rti } from "@/lib/rti/server";
 
 export default async function DraftPage({
@@ -20,6 +21,14 @@ export default async function DraftPage({
     notFound();
   }
 
+  const whyStronger = await explainWhyStronger({
+    question: request.originalQuestion,
+    clarifiedQuestion: request.clarifiedQuestion,
+    clarifications: [],
+    selectedCategoryIds: request.informationCategories,
+    draftText: request.draftText,
+  });
+
   return (
     <RouteShell
       eyebrow="Step 4 · Draft"
@@ -27,7 +36,11 @@ export default async function DraftPage({
       description="Edit freely. Ask for documents, not opinions."
     >
       <WizardSteps current="Draft" />
-      <DraftForm draftText={request.draftText} id={request.id} />
+      <DraftForm
+        draftText={request.draftText}
+        id={request.id}
+        whyStronger={whyStronger.explanation}
+      />
     </RouteShell>
   );
 }

@@ -21,7 +21,7 @@ export type ClassifyQuestionResult = {
   suggestedCategoryIds: InformationCategoryId[];
   clarifiedQuestion: string;
   missing: string[];
-  usedFallback: true;
+  usedFallback: boolean;
 };
 
 export function classifyQuestion(question: string): ClassifyQuestionResult {

@@ -4,14 +4,14 @@ import { Button } from "@/components/ui/button";
 
 import { saveDraft } from "@/app/(ask)/ask/actions";
 import { AiNotice } from "./ai-notice";
-import { WHY_STRONGER } from "./copy";
 
 interface DraftFormProps {
   id: string;
   draftText: string;
+  whyStronger: string;
 }
 
-export function DraftForm({ id, draftText }: DraftFormProps) {
+export function DraftForm({ id, draftText, whyStronger }: DraftFormProps) {
   return (
     <form action={saveDraft} className="space-y-5">
       <input name="id" type="hidden" value={id} />
@@ -28,7 +28,7 @@ export function DraftForm({ id, draftText }: DraftFormProps) {
       />
       <section className="rounded-2xl bg-civic-50 p-4">
         <h2 className="text-sm font-bold text-civic-900">Why this request is stronger</h2>
-        <p className="mt-2 text-sm leading-6 text-slate-700">{WHY_STRONGER}</p>
+        <p className="mt-2 text-sm leading-6 text-slate-700">{whyStronger}</p>
       </section>
       <Button className="w-full sm:w-auto" type="submit">
         Continue to review

@@ -21,7 +21,13 @@ export function ClarifyForm({
   return (
     <form action={saveClarification} className="space-y-5">
       <input name="question" type="hidden" value={question} />
-      {usedFallback ? <AiNotice /> : <AiNotice />}
+      <AiNotice />
+      {usedFallback ? (
+        <p className="text-xs text-slate-500">
+          Using deterministic fallback guidance so the demo keeps moving even if the
+          model is unavailable.
+        </p>
+      ) : null}
       <p className="text-sm leading-6 text-slate-600">
         I can help turn this into a records request. Suggested focus:{" "}
         <span className="font-medium text-civic-900">{clarifiedQuestion}</span>

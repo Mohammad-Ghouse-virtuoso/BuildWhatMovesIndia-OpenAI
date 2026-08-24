@@ -2,11 +2,11 @@
 
 import { redirect } from "next/navigation";
 
-import { draftTextFromCategories } from "@/components/rti/copy";
 import {
   DEMO_USER_ID,
   PRIMARY_AUTHORITY_ID,
 } from "@/lib/rti/domain/constants";
+import { classifyQuestion, generateDraft } from "@/lib/rti/ai/service";
 import { rti } from "@/lib/rti/server";
 
 function text(formData: FormData, key: string) {
@@ -29,19 +29,17 @@ export async function saveClarification(formData: FormData) {
     redirect("/ask");
   }
 
-  const classified = await rti().classifyQuestion(question);
-  const extra = [project && `Project/road: ${project}`, period && `Period: ${period}`]
-    .filter(Boolean)
-    .join(". ");
-  const clarifiedQuestion = extra
-    ? `${classified.clarifiedQuestion} ${extra}`
-    : classified.clarifiedQuestion;
+  const clarifications = [
+    project && `Project/road: ${project}`,
+    period && `Period: ${period}`,
+  ].filter(Boolean);
+  const classified = await classifyQuestion({ question, clarifications });
 
   const draft = await rti().createDraft({
     userId: DEMO_USER_ID,
     authorityId: PRIMARY_AUTHORITY_ID,
     originalQuestion: question,
-    clarifiedQuestion,
+    clarifiedQuestion: classified.clarifiedQuestion,
     informationCategories: classified.suggestedCategoryIds,
   });
 
@@ -59,10 +57,22 @@ export async function saveInformation(formData: FormData) {
     redirect(id ? `/ask/information?id=${id}` : "/ask");
   }
 
+  const request = await rti().getRequest(id);
+  if (!request) {
+    redirect("/ask");
+  }
+
+  const draft = await generateDraft({
+    question: request.originalQuestion,
+    clarifiedQuestion: request.clarifiedQuestion,
+    clarifications: [],
+    selectedCategoryIds: categories,
+  });
+
   await rti().updateDraft({
     id,
     informationCategories: categories,
-    draftText: draftTextFromCategories(categories),
+    draftText: draft.draftText,
   });
 
   redirect(`/ask/draft?id=${id}`);
