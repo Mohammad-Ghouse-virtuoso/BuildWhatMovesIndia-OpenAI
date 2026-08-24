@@ -1,0 +1,19 @@
+---
+description: Ask India product and internal agent protocol
+alwaysApply: true
+---
+
+# Ask India
+
+Tagline: **Turn questions into evidence.**
+
+This is an RTI Online **citizen POC** (Central public authorities only). It is not Civic Intelligence and not an official government product.
+
+Before implementing anything:
+
+1. Read `.internal/rti/README.md` and `.internal/rti/MASTER.md`
+2. Read `.internal/rti/AGENT-LEDGER.md` (what previous agents actually did)
+3. Read the assigned `.internal/rti/PHASE-*.md`
+4. After the run, append a dated entry to the ledger and write `notes/Phase-<N>-implemented.md` if a phase finished
+
+Do not invent government APIs, scrape RTI Online, or drop the demo/synthetic labeling.

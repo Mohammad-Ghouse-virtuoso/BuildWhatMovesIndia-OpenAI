@@ -1,0 +1,23 @@
+---
+description: graphify knowledge graph context
+alwaysApply: true
+---
+
+This project has a graphify knowledge graph at `graphify-out/`.
+
+**Before using Read, Grep, Glob, or Bash to explore the codebase, run graphify first:**
+
+- `graphify query "<question>"` — subgraph for architecture/code questions
+- `graphify path "A" "B"` — shortest path between two nodes
+- `graphify explain "X"` — node plus neighbors
+
+This applies to you and every subagent. Put this rule in subagent prompts that explore code.
+
+Use Read/Grep/Glob directly only when:
+
+1. Graphify already oriented you and you need exact lines to edit
+2. `graphify-out/graph.json` does not exist yet
+
+After changing code, run `graphify update .` (AST only, no API key).
+
+Internal product context (gitignored) is **not** in the graph until docs are extracted. Always also read `.internal/rti/README.md` and `.internal/rti/AGENT-LEDGER.md` before implementing.
