@@ -27,7 +27,9 @@ export function SiteNav() {
             size="sm"
             variant={active ? "primary" : "secondary"}
           >
-            <Link href={link.href}>{link.label}</Link>
+            <Link aria-current={active ? "page" : undefined} href={link.href}>
+              {link.label}
+            </Link>
           </Button>
         );
       })}

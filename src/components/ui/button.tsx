@@ -23,7 +23,7 @@ export function Button({
       className={cn(
         "inline-flex items-center justify-center rounded-full font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-civic-700 disabled:pointer-events-none disabled:opacity-50",
         variant === "primary" &&
-          "bg-civic-900 text-white hover:bg-civic-800",
+          "bg-civic-900 text-white! hover:bg-civic-800 hover:text-white!",
         variant === "secondary" &&
           "border border-civic-200 bg-white text-civic-900 hover:bg-civic-50",
         variant === "ghost" && "text-civic-700 hover:bg-civic-50",
