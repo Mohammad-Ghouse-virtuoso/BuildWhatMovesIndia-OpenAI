@@ -40,7 +40,9 @@ export default function Home() {
         </ul>
         <div className="mt-8">
           <Button asChild className="w-full sm:w-auto" variant="secondary">
-            <Link href={DEMO_RESPONSE_HREF}>Open demo: road project</Link>
+            <Link href={DEMO_RESPONSE_HREF} prefetch>
+              Open demo: road project
+            </Link>
           </Button>
         </div>
         <p className="mt-6 text-sm text-ink-muted">

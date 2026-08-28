@@ -109,7 +109,9 @@ export default async function RtiResponsePage({
           )}
           {missing.length > 0 ? (
             <Button asChild className="mt-8 w-full sm:w-auto">
-              <Link href={`/my-rti/${request.id}/appeal`}>Prepare first appeal</Link>
+              <Link href={`/my-rti/${request.id}/appeal`} prefetch>
+                Prepare first appeal
+              </Link>
             </Button>
           ) : null}
         </>

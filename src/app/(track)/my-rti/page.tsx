@@ -16,7 +16,9 @@ export default async function MyRtiPage() {
       description="Continue as the demo citizen. There is no real login. Refresh keeps these rows — they live in the database."
     >
       <Button asChild className="mb-6 w-full sm:w-auto" variant="secondary">
-        <Link href={DEMO_RESPONSE_HREF}>Open demo: road project</Link>
+        <Link href={DEMO_RESPONSE_HREF} prefetch>
+          Open demo: road project
+        </Link>
       </Button>
       {requests.length === 0 ? (
         <p className="text-sm text-ink-muted">No requests yet. Start from Ask.</p>
