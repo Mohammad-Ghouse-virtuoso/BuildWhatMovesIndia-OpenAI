@@ -31,7 +31,7 @@ export default async function RtiDetailPage({
       title={request.registrationNumber ?? "Draft request"}
       description={request.originalQuestion}
     >
-      <p className="mb-6 text-sm text-slate-600">
+      <p className="mb-6 text-sm text-ink-muted">
         {STATUS_LABEL[request.status]}
         {request.submittedAt ? ` · filed ${formatIst(request.submittedAt)}` : ""}
       </p>

@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { card, sectionTitle } from "@/components/ui/styles";
 
 import { saveInformation } from "@/app/(ask)/ask/actions";
 import { AiNotice } from "./ai-notice";
@@ -20,20 +21,20 @@ export function InformationForm({ id, selected }: InformationFormProps) {
       <AiNotice />
       {Object.entries(groups).map(([group, categories]) => (
         <fieldset key={group} className="space-y-2">
-          <legend className="text-sm font-bold text-civic-900">{group}</legend>
+          <legend className={sectionTitle}>{group}</legend>
           {categories.map((category) => (
             <label
               key={category.id}
-              className="flex items-start gap-3 rounded-2xl border border-civic-100 bg-white p-3 text-sm"
+              className={"flex items-start gap-3 text-sm " + card}
             >
               <input
-                className="mt-1 h-4 w-4"
+                className="mt-1 h-4 w-4 accent-civic-700"
                 defaultChecked={selected.includes(category.id)}
                 name="category"
                 type="checkbox"
                 value={category.id}
               />
-              <span>{category.label}</span>
+              <span className="text-ink">{category.label}</span>
             </label>
           ))}
         </fieldset>

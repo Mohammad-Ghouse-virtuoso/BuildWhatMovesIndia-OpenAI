@@ -13,16 +13,16 @@ export function AppShell({ children }: AppShellProps) {
   return (
     <div className="min-h-screen">
       <DemoDisclosure />
-      <header className="border-b border-civic-100 bg-white/90 px-4 py-4 backdrop-blur">
+      <header className="border-b border-border bg-surface/90 px-4 py-4 backdrop-blur">
         <div className="mx-auto flex max-w-6xl flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <Link
-              className="text-lg font-bold tracking-tight text-civic-900"
+              className="text-lg font-bold tracking-tight text-ink"
               href="/"
             >
               {PRODUCT_NAME}
             </Link>
-            <p className="text-xs font-medium text-slate-500">{TAGLINE}</p>
+            <p className="text-xs font-medium text-ink-muted">{TAGLINE}</p>
           </div>
           <SiteNav />
         </div>

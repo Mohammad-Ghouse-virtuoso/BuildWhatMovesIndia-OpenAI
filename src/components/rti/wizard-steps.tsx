@@ -6,7 +6,7 @@ interface WizardStepsProps {
 
 export function WizardSteps({ current }: WizardStepsProps) {
   return (
-    <ol className="mb-6 flex flex-wrap gap-2 text-xs font-semibold text-slate-500">
+    <ol className="mb-6 flex gap-2 overflow-x-auto pb-2 text-xs font-semibold text-ink-muted [-webkit-overflow-scrolling:touch]">
       {WIZARD_STEPS.map((step, index) => {
         const active = step.label === current;
         return (
@@ -14,8 +14,8 @@ export function WizardSteps({ current }: WizardStepsProps) {
             key={step.href}
             className={
               active
-                ? "rounded-full bg-civic-900 px-3 py-1 text-white"
-                : "rounded-full bg-civic-50 px-3 py-1"
+                ? "shrink-0 whitespace-nowrap rounded-full bg-civic-700 px-3 py-1 text-white"
+                : "shrink-0 whitespace-nowrap rounded-full border border-border bg-surface px-3 py-1"
             }
           >
             {index + 1}. {step.label}

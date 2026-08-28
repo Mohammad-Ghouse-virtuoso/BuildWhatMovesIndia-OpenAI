@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { card, helpText, label, selectBase, textareaBase, sectionTitle } from "@/components/ui/styles";
 
 import { fileRequest } from "@/app/(ask)/ask/actions";
 import type { PublicAuthorityDto } from "@/lib/rti/contracts/dtos";
@@ -23,10 +24,10 @@ export function ReviewForm({
   return (
     <form action={fileRequest} className="space-y-5">
       <input name="id" type="hidden" value={id} />
-      <label className="block text-sm font-semibold text-slate-700">
+      <label className={label}>
         Public authority
         <select
-          className="mt-2 w-full rounded-2xl border border-civic-200 px-4 py-3 text-sm"
+          className={"mt-2 " + selectBase}
           defaultValue={authorityId}
           name="authorityId"
         >
@@ -38,26 +39,26 @@ export function ReviewForm({
           ))}
         </select>
       </label>
-      <label className="block text-sm font-semibold text-slate-700">
+      <label className={label}>
         Information requested
         <textarea
-          className="mt-2 min-h-48 w-full rounded-2xl border border-civic-200 px-4 py-3 text-sm leading-6"
+          className={"mt-2 min-h-48 " + textareaBase + " text-sm leading-6"}
           defaultValue={draftText}
           name="draftText"
         />
       </label>
-      <section className="rounded-2xl border border-civic-100 p-4 text-sm">
-        <h2 className="font-bold text-civic-900">Applicant (mocked)</h2>
-        <p className="mt-2 text-slate-700">{DEMO_CITIZEN.name}</p>
-        <p className="text-slate-600">{DEMO_CITIZEN.email}</p>
-        <p className="text-slate-600">{DEMO_CITIZEN.phone}</p>
+      <section className={card + " text-sm"}>
+        <h2 className={sectionTitle}>Applicant (mocked)</h2>
+        <p className="mt-2 text-ink">{DEMO_CITIZEN.name}</p>
+        <p className="text-ink-muted">{DEMO_CITIZEN.email}</p>
+        <p className="text-ink-muted">{DEMO_CITIZEN.phone}</p>
       </section>
-      <section className="rounded-2xl border border-civic-100 p-4 text-sm">
-        <h2 className="font-bold text-civic-900">Fee (mocked)</h2>
-        <p className="mt-2 text-slate-700">₹{RTI_APPLICATION_FEE_INR} application fee</p>
-        <p className="mt-1 text-xs text-slate-500">No payment is collected in this prototype.</p>
+      <section className={card + " text-sm"}>
+        <h2 className={sectionTitle}>Fee (mocked)</h2>
+        <p className="mt-2 text-ink">₹{RTI_APPLICATION_FEE_INR} application fee</p>
+        <p className="mt-1 text-xs text-ink-muted">No payment is collected in this prototype.</p>
       </section>
-      <p className="text-xs leading-5 text-slate-500">
+      <p className={"text-xs leading-5 " + helpText}>
         Central public authorities only. Filing here is simulated. Nothing is sent to
         Government of India.
       </p>

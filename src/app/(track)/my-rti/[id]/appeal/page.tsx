@@ -35,7 +35,7 @@ export default async function RtiAppealPage({
       title="Ask again for what was not answered"
       description="This draft is assembled from unanswered items. It is not legal advice and is not filed with a First Appellate Authority."
     >
-      <p className="text-sm text-slate-600">
+      <p className="text-sm text-ink-muted">
         Original question: {response.request.originalQuestion}
       </p>
       <Link
@@ -44,9 +44,9 @@ export default async function RtiAppealPage({
       >
         View response
       </Link>
-      <h2 className="mt-6 text-sm font-bold text-civic-900">Still missing</h2>
+      <h2 className="mt-6 text-sm font-bold text-ink">Still missing</h2>
       {missing.length === 0 ? (
-        <p className="mt-2 text-sm text-slate-600">
+        <p className="mt-2 text-sm text-ink-muted">
           Nothing is marked unanswered, so a first appeal is not prepared.
         </p>
       ) : (
@@ -61,9 +61,9 @@ export default async function RtiAppealPage({
       {appeal ? (
         <section className="mt-6 space-y-3">
           <AiNotice />
-          <h2 className="text-sm font-bold text-civic-900">Appeal draft</h2>
-          <p className="text-sm text-slate-600">{appeal.reason}</p>
-          <pre className="whitespace-pre-wrap rounded-2xl border border-civic-100 bg-civic-50 p-4 font-sans text-sm leading-6 text-slate-700">
+          <h2 className="text-sm font-bold text-ink">Appeal draft</h2>
+          <p className="text-sm text-ink-muted">{appeal.reason}</p>
+          <pre className="whitespace-pre-wrap rounded-2xl border border-civic-100 bg-civic-50 p-4 font-sans text-sm leading-6 text-ink overflow-x-auto">
             {appeal.draftText}
           </pre>
         </section>
@@ -75,7 +75,7 @@ export default async function RtiAppealPage({
           </Button>
         </form>
       ) : (
-        <p className="mt-6 text-sm text-slate-600">
+        <p className="mt-6 text-sm text-ink-muted">
           A first-appeal draft is available after a response leaves something unanswered.
         </p>
       )}

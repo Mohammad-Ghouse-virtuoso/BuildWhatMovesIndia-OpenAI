@@ -23,14 +23,14 @@ export default async function SubmittedPage({
       title="RTI submitted (simulated)"
       description="This registration exists only in the Ask India demo. It was not filed with Government of India."
     >
-      <p className="text-sm font-semibold text-slate-600">Registration number</p>
-      <p className="mt-1 font-mono text-lg font-bold text-civic-900">
+      <p className="text-sm font-semibold text-ink-muted">Registration number</p>
+      <p className="mt-1 break-all font-mono text-lg font-bold text-ink">
         {request.registrationNumber ?? "Pending DEMO number"}
       </p>
-      <p className="mt-4 text-sm text-slate-600">
+      <p className="mt-4 text-sm text-ink-muted">
         Recorded {formatIst(request.submittedAt)} · {STATUS_LABEL[request.status]}
       </p>
-      <p className="mt-2 text-xs text-slate-500">{request.responseDueDisclaimer}</p>
+      <p className="mt-2 text-xs text-ink-muted">{request.responseDueDisclaimer}</p>
       <Button asChild className="mt-8 w-full sm:w-auto">
         <Link href={`/my-rti/${request.id}`}>Track this request</Link>
       </Button>

@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { cardMuted, fieldBase, label } from "@/components/ui/styles";
 
 import { saveClarification } from "@/app/(ask)/ask/actions";
 import { AiNotice } from "./ai-notice";
@@ -23,31 +24,36 @@ export function ClarifyForm({
       <input name="question" type="hidden" value={question} />
       <AiNotice />
       {usedFallback ? (
-        <p className="text-xs text-slate-500">
+        <p className="text-xs text-ink-muted">
           Using deterministic fallback guidance so the demo keeps moving even if the
           model is unavailable.
         </p>
       ) : null}
-      <p className="text-sm leading-6 text-slate-600">
-        I can help turn this into a records request. Suggested focus:{" "}
-        <span className="font-medium text-civic-900">{clarifiedQuestion}</span>
-      </p>
+      <section className={cardMuted}>
+        <p className="text-sm leading-6 text-ink">
+          Suggested focus{" "}
+          <span className="font-semibold text-civic-800">{clarifiedQuestion}</span>
+        </p>
+        <p className="mt-2 text-xs leading-5 text-ink-muted">
+          Skip anything you do not know — we keep the request records-based.
+        </p>
+      </section>
       <fieldset className="space-y-4">
-        <legend className="text-sm font-semibold text-civic-900">
+        <legend className="text-sm font-semibold text-ink">
           Only if you know — skip anything you do not
         </legend>
-        <label className="block text-sm font-medium text-slate-700">
+        <label className={label}>
           {missing[0] ?? "Which road or project?"}
           <input
-            className="mt-2 w-full rounded-2xl border border-civic-200 px-4 py-3 text-base"
+            className={"mt-2 " + fieldBase}
             name="project"
             placeholder="Optional"
           />
         </label>
-        <label className="block text-sm font-medium text-slate-700">
+        <label className={label}>
           {missing[1] ?? "Which year or period?"}
           <input
-            className="mt-2 w-full rounded-2xl border border-civic-200 px-4 py-3 text-base"
+            className={"mt-2 " + fieldBase}
             name="period"
             placeholder="Optional"
           />
